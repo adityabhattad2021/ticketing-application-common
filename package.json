@@ -5,10 +5,15 @@
   "repository": {
     "url": "https://github.com/adityabhattad2021/ticketing-application-common.git"
   },
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types":"./build/index.d.ts",
+  "files":[
+    "build/**/*"
+  ],
   "scripts": {
-    "clean":"det ./build/*",
-    "build":"npm run clean && tsc"
+    "clean":"del ./build/*",
+    "build":"npm run clean && tsc",
+    "pub":"npm version patch && npm run build && npm publish"
   },
   "author": "Aditya Bhattad",
   "license": "ISC",
