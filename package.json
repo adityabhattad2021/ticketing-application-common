@@ -1,0 +1,11 @@
+{
+  "name": "@gittix-microservices/common",
+  "version": "1.0.0",
+  "description": "Sharable code for ticketing application (GitTix)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aditya Bhattad",
+  "license": "ISC"
+}
