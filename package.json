@@ -1,19 +1,19 @@
 {
   "name": "@gittix-microservices/common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sharable code for ticketing application (GitTix)",
   "repository": {
     "url": "https://github.com/adityabhattad2021/ticketing-application-common.git"
   },
   "main": "./build/index.js",
-  "types":"./build/index.d.ts",
-  "files":[
+  "types": "./build/index.d.ts",
+  "files": [
     "build/**/*"
   ],
   "scripts": {
-    "clean":"del ./build/*",
-    "build":"npm run clean && tsc",
-    "pub":"npm version patch && npm run build && npm publish"
+    "clean": "del ./build/*",
+    "build": "npm run clean && tsc",
+    "pub": "npm version patch && npm run build && npm publish"
   },
   "author": "Aditya Bhattad",
   "license": "ISC",
