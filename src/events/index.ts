@@ -6,5 +6,6 @@ import { TicketUpdatedEvent } from "./ticket-updated-event";
 import { OrderStatus } from "./order-status";
 import { OrderCancelledEvent } from "./order-cancelled-event";
 import { OrderCreatedEvent } from "./order-created-event";
+import { NatsWrapper } from "./nats-wrapper";
 
-export { TicketCreatedEvent, TicketUpdatedEvent, Subjects, Publisher, Listener, OrderStatus, OrderCreatedEvent, OrderCancelledEvent };
+export { TicketCreatedEvent, TicketUpdatedEvent, Subjects, Publisher, Listener, OrderStatus, OrderCreatedEvent, OrderCancelledEvent,NatsWrapper };
