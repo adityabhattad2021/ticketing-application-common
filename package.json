@@ -1,6 +1,6 @@
 {
   "name": "@gittix-microservices/common",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Sharable code for ticketing application (GitTix)",
   "repository": {
     "url": "https://github.com/adityabhattad2021/ticketing-application-common.git"
