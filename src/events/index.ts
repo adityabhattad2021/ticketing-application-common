@@ -7,5 +7,6 @@ import { OrderStatus } from "./order-status";
 import { OrderCancelledEvent } from "./order-cancelled-event";
 import { OrderCreatedEvent } from "./order-created-event";
 import { NatsWrapper } from "./nats-wrapper";
+import { ExpirationCompletedEvent } from "./expiration-completed-event";
 
-export { TicketCreatedEvent, TicketUpdatedEvent, Subjects, Publisher, Listener, OrderStatus, OrderCreatedEvent, OrderCancelledEvent,NatsWrapper };
+export { TicketCreatedEvent, TicketUpdatedEvent, Subjects, Publisher, Listener, OrderStatus, OrderCreatedEvent, OrderCancelledEvent, NatsWrapper, ExpirationCompletedEvent };
