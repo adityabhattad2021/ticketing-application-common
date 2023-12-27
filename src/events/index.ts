@@ -8,5 +8,6 @@ import { OrderCancelledEvent } from "./order-cancelled-event";
 import { OrderCreatedEvent } from "./order-created-event";
 import { NatsWrapper } from "./nats-wrapper";
 import { ExpirationCompletedEvent } from "./expiration-completed-event";
+import { PaymentCreatedEvent } from "./payment-created-event";
 
-export { TicketCreatedEvent, TicketUpdatedEvent, Subjects, Publisher, Listener, OrderStatus, OrderCreatedEvent, OrderCancelledEvent, NatsWrapper, ExpirationCompletedEvent };
+export { TicketCreatedEvent, TicketUpdatedEvent, Subjects, Publisher, Listener, OrderStatus, OrderCreatedEvent, OrderCancelledEvent, NatsWrapper, ExpirationCompletedEvent,PaymentCreatedEvent };
