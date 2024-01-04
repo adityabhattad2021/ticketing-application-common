@@ -1,27 +1,38 @@
-import nats,{ Stan } from "node-nats-streaming";
+import nats from "nats";
+
 
 export class NatsWrapper{
-    private _client?:Stan;
+    private _client?: nats.NatsConnection;
+    private _jsClient?: nats.JetStreamClient;
 
-    get client(){
-        if(!this._client){
-            throw new Error('Cannot access NATS client');
+    get client() {
+        if (!this._client) {
+            throw new Error('Cannot access NATS client before connecting.');
         }
         return this._client;
     }
 
-    connect(clusterId:string,clientId:string,url:string){
-        this._client = nats.connect(clusterId,clientId,{url});
+    get jsClient() {
+        if (!this._jsClient) {
+            throw new Error('Cannot access JetStream client before connecting.');
+        }
+        return this._jsClient;
+    }
 
-        return new Promise<void>((resolve,reject)=>{
-            this.client.on('connect',()=>{
-                console.log('Successfully connected to the NATS client!');
+
+    connect(url: string): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this._client = await nats.connect({ servers: url });
+
+                this._jsClient = this.client.jetstream();
+
+                console.log('Successfully connected to NATS and initialized JetStream.');
                 resolve();
-            })
-            this.client.on('error',(err)=>{
-                console.log('There was an error while connecting to the NATS client');
-                reject(err)
-            })
-        })
+            } catch (err) {
+                console.error('Error in NATS connection: ', err);
+                reject(err);
+            }
+        });
     }
 }

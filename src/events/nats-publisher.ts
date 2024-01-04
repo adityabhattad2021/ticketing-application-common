@@ -1,4 +1,4 @@
-import { Stan } from "node-nats-streaming";
+import { JetStreamClient, JSONCodec } from "nats";
 import { Subjects } from "./subjects";
 
 
@@ -8,22 +8,16 @@ interface Event {
 }
 
 export abstract class Publisher<T extends Event>{
-    abstract subject:T['subject']
-    protected client:Stan;
+    abstract subject: T['subject'];
+    protected jsClient: JetStreamClient; 
 
-    constructor(client:Stan){
-        this.client = client;
+    constructor(jsClient: JetStreamClient) { 
+        this.jsClient = jsClient;
     }
 
-    publish(data:T['data']):Promise<void>{
-        return new Promise((resolve,reject)=>{
-            this.client.publish(this.subject,JSON.stringify(data),(err)=>{
-                if(err){
-                    return reject(err);
-                }
-                console.log('Successfully published an event',this.subject);    
-                resolve();
-            })
-        })
+    async publish(data: T['data']): Promise<void> {
+        const codec = JSONCodec();
+        await this.jsClient.publish(this.subject, codec.encode(data));
+        console.log('Event published to subject:', this.subject);
     }
 }
