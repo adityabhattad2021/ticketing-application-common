@@ -23,8 +23,8 @@ export class NatsWrapper{
     connect(url: string): Promise<void> {
         return new Promise(async (resolve, reject) => {
             try {
-                this._client = await nats.connect({ servers: url });
-
+                this._client = await nats.connect({});
+               
                 this._jsClient = this.client.jetstream();
 
                 console.log('Successfully connected to NATS and initialized JetStream.');
