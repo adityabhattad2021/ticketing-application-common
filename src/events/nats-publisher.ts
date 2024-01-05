@@ -1,4 +1,4 @@
-import { JetStreamClient, JSONCodec } from "nats";
+import { JetStreamClient } from "nats";
 import { Subjects } from "./subjects";
 
 
@@ -16,8 +16,7 @@ export abstract class Publisher<T extends Event>{
     }
 
     async publish(data: T['data']): Promise<void> {
-        const codec = JSONCodec();
-        await this.jsClient.publish(this.subject, codec.encode(data));
+        await this.jsClient.publish(`gittix.${this.subject}`, JSON.stringify(data));
         console.log('Event published to subject:', this.subject);
     }
 }

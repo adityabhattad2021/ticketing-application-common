@@ -25,12 +25,12 @@ export abstract class Listener<T extends Event>{
             .durable(this.queueGroupName)
             .deliverGroup(this.queueGroupName)
             .filterSubject(this.subject)
-            .deliverAll();
+            .deliverNew();
         return consumerOptions;
     }
 
     async listen() {
-        const subscription = await this.jsClient.subscribe(this.subject, this.subscriptionOptions());
+        const subscription = await this.jsClient.subscribe(`gittix.${this.subject}`, this.subscriptionOptions());
 
 
         for await (const msg of subscription) {
@@ -43,7 +43,6 @@ export abstract class Listener<T extends Event>{
 
     parseMessage(msg: JsMsg) {
         const data = msg.data;
-        const codec = JSONCodec();
-        return codec.decode(data);
+        return String(data);
     }
 }

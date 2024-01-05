@@ -1,9 +1,9 @@
-import {connect} from "nats";
+import {JetStreamClient, JetStreamManager, NatsConnection, connect} from "nats";
 
 
 export class NatsWrapper{
-    private _client?: nats.NatsConnection;
-    private _jsClient?: nats.JetStreamClient;
+    private _client?: NatsConnection;
+    private _jsClient?: JetStreamClient;
 
     get client() {
         if (!this._client) {
@@ -20,19 +20,38 @@ export class NatsWrapper{
     }
 
 
-    connect(url: string): Promise<void> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                this._client = await connect({});
-               
-                this._jsClient = this.client.jetstream();
+    async connect(url: string,streamName:string,subjects:string[]): Promise<void> {
+        try {
+            this._client = await connect({ servers: [url] });
+            await this.createStreamIfNotExists(streamName,subjects);
+            this._jsClient = this.client.jetstream();
+            console.log('Successfully connected to NATS and initialized JetStream.');
+        } catch (err) {
+            console.error('Error in NATS connection: ', err);
+            throw err;
+        }
+    }
 
-                console.log('Successfully connected to NATS and initialized JetStream.');
-                resolve();
-            } catch (err) {
-                console.error('Error in NATS connection: ', err);
-                reject(err);
-            }
-        });
+    async createStreamIfNotExists(streamName: string, subjects: string[]): Promise<void> {
+        const jsm: JetStreamManager = await this.client.jetstreamManager();
+        const streams = await jsm.streams.list().next();
+        const streamExists = streams.some(stream => stream.config.name === streamName);
+
+        if (!streamExists) {
+            await jsm.streams.add({
+                name: streamName,
+                subjects: subjects,
+            });
+            console.log(`Stream ${streamName} created.`);
+        } else {
+            console.log(`Stream ${streamName} already exists.`);
+        }
+    }
+
+    close() {
+        if (this._client) {
+            this._client.close();
+            console.log('NATS connection closed.');
+        }
     }
 }
