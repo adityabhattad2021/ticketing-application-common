@@ -25,7 +25,6 @@ export abstract class Listener<T extends Event>{
             .durable(this.queueGroupName)
             .deliverGroup(this.queueGroupName)
             .deliverTo(this.queueGroupName)
-            .filterSubject(this.subject)
             .deliverNew();
         return consumerOptions;
     }
