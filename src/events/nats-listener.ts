@@ -43,6 +43,6 @@ export abstract class Listener<T extends Event>{
 
     parseMessage(msg: JsMsg) {
         const data = msg.data;
-        return String(data);
+        return JSON.parse(data.toString());
     }
 }
