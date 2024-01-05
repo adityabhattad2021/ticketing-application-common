@@ -24,6 +24,7 @@ export abstract class Listener<T extends Event>{
             .ackWait(this.ackWait)
             .durable(this.queueGroupName)
             .deliverGroup(this.queueGroupName)
+            .deliverTo(this.queueGroupName)
             .filterSubject(this.subject)
             .deliverNew();
         return consumerOptions;
