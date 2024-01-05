@@ -1,4 +1,4 @@
-import nats from "nats";
+import {connect} from "nats";
 
 
 export class NatsWrapper{
@@ -23,7 +23,7 @@ export class NatsWrapper{
     connect(url: string): Promise<void> {
         return new Promise(async (resolve, reject) => {
             try {
-                this._client = await nats.connect({});
+                this._client = await connect({});
                
                 this._jsClient = this.client.jetstream();
 
