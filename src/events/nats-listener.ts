@@ -1,4 +1,4 @@
-import { JSONCodec, JetStreamClient, JsMsg, consumerOpts } from "nats";
+import { JetStreamClient, JsMsg, consumerOpts } from "nats";
 import { Subjects } from "./subjects";
 
 interface Event {
@@ -22,7 +22,7 @@ export abstract class Listener<T extends Event>{
         let consumerOptions = consumerOpts()
             .manualAck()
             .ackWait(this.ackWait)
-            // .durable(this.queueGroupName)
+            .durable(this.queueGroupName)
             .deliverGroup(this.queueGroupName)
             .deliverTo(this.queueGroupName)
             .queue(this.queueGroupName)
@@ -31,16 +31,19 @@ export abstract class Listener<T extends Event>{
     }
 
     async listen() {
-        const subscription = await this.jsClient.subscribe(`gittix.${this.subject}`, this.subscriptionOptions());
-
-
-        for await (const msg of subscription) {
-            console.log(`Message received: ${this.subject}/${this.queueGroupName}`);
-
-            const parsedData = this.parseMessage(msg);
-            this.onMessage(parsedData, msg);
+        try {
+            const subscription = await this.jsClient.subscribe(`gittix.${this.subject}`, this.subscriptionOptions());
+     
+            for await (const msg of subscription) {
+                console.log(`Message received: ${this.subject}/${this.queueGroupName}`);
+     
+                const parsedData = this.parseMessage(msg);
+                this.onMessage(parsedData, msg);
+            }
+        } catch (error) {
+            console.error('Error while listening:', error);
         }
-    }
+     }
 
     parseMessage(msg: JsMsg) {
         const data = msg.data;
