@@ -22,9 +22,10 @@ export abstract class Listener<T extends Event>{
         let consumerOptions = consumerOpts()
             .manualAck()
             .ackWait(this.ackWait)
-            .durable(this.queueGroupName)
+            // .durable(this.queueGroupName)
             .deliverGroup(this.queueGroupName)
             .deliverTo(this.queueGroupName)
+            .queue(this.queueGroupName)
             .deliverNew();
         return consumerOptions;
     }
